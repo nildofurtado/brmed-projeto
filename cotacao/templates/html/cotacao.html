@@ -1,0 +1,157 @@
+{% extends 'html/base.html' %}
+{% block title %}COTAÇÃO DOLAR{% endblock %}
+
+{% block content %}
+    <center>
+        <h3>COTAÇÃO DOLAR X REAL-YEN-EURO</h3>
+        <br>
+    </center>
+{% endblock %}
+
+{% block consulta %}
+<form action={% url 'cotacao:consulta' %} method="POST">
+    {% csrf_token %}
+    <center>
+        <div class="row">
+            <div class="col-lg-2 alert">
+                {{ form.as_p }}
+            </div>
+            <div class="col-lg-4 alert">
+                <label>Data inicial</label>
+                <input type="date" name="datei" id="datei">
+            </div>
+            <div class="col-lg-4 alert">
+                <label>Data Final</label>
+                <input type="date" name="datef" id="datef">
+            </div>
+            <div class="col-lg-2 alert">
+                <button type="submit" class="btn btn-success">Consultar</button>
+            </div>
+        </div>
+        <br>
+    </center>
+    <br>
+    {{ dados }}
+    <br>
+    {{ dados }}
+</form>
+{% endblock %}
+
+
+{% block grafico %}
+    <div class="col-lg-4">
+        <div id="euro" class="border"></div>
+    </div>
+
+    <div class="col-lg-4">
+        <div id="yen" class="border"></div>
+    </div>
+
+    <div class="col-lg-4">
+        <div id="real" class="border"></div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+    Highcharts.chart('euro', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'COTAÇÃO DOLAR x EURO'
+        },
+        subtitle: {
+            text: 'Source: api.vatcomply.com/'
+        },
+        xAxis: {
+            categories: [{% for i in retorno %}'{{ i.data|safe }}'{% if not forloop.last %},{% endif %}{% endfor %}]
+        },
+        yAxis: {
+            title: {
+                text: 'Dolar (USR)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [{
+            name: 'EURO',
+            data: [{% for i in retorno %}{{ i.cotacao.euro|safe }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        }]
+    });
+
+
+    Highcharts.chart('yen', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'COTAÇÃO DOLAR x YEN'
+        },
+        subtitle: {
+            text: 'Source: api.vatcomply.com/'
+        },
+        xAxis: {
+            categories: [{% for i in retorno %}'{{ i.data|safe }}'{% if not forloop.last %},{% endif %}{% endfor %}]
+        },
+        yAxis: {
+            title: {
+                text: 'YEN (JPS)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [{
+            name: 'YEN',
+            data: [{% for i in retorno %}{{ i.cotacao.ien|safe }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        }]
+    });
+
+    Highcharts.chart('real', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: "COTAÇÃO DOLAR x REAL"
+        },
+        subtitle: {
+            text: 'Source: api.vatcomply.com/'
+        },
+        xAxis: {
+            categories: [{% for i in retorno %}'{{ i.data|safe }}'{% if not forloop.last %},{% endif %}{% endfor %}]
+        },
+        yAxis: {
+            title: {
+                text: 'REAL (BRL)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [{
+            name: 'BRL',
+            data: [{% for i in retorno %}{{ i.cotacao.real|safe }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        }]
+    });
+
+
+</script>
+{% endblock %}
