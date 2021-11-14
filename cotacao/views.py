@@ -2,7 +2,6 @@ from django.shortcuts import render
 from .controller.api import ConsultaApi
 from .controller.consulta import ConsultaData
 from django.shortcuts import redirect
-# Create your views here.
 
 def index(request):
     d = ConsultaApi.index()
@@ -10,13 +9,13 @@ def index(request):
     for i in d:
         esc.append(
             {
-                'id'        : i,
-                'data'      : d[i]['data'],
-                'cotacao'   : {
-                                'euro'  : d[i]['euro'],
-                                'real'  : d[i]['real'],
-                                'ien'   : d[i]['ien'],
-                               }
+            'id'        : i,
+            'data'      : d[i]['data'],
+            'cotacao'   : {
+                            'euro'  : d[i]['euro'],
+                            'real'  : d[i]['real'],
+                            'ien'   : d[i]['ien'],
+                           }
             }
         )
     return render(request, 'html/cotacao.html', {'retorno' : esc})
@@ -24,7 +23,6 @@ def index(request):
 def consulta(request):
     if(request.method == 'GET'):
         return redirect('/')
-        # return render(request, 'html/cotacao.html', {'retorno': index(request)})
     else:   
         esc = [] 
         dtinicial   =  request.POST['datei']
@@ -32,7 +30,6 @@ def consulta(request):
         
         DataRetorno = ConsultaData.periodo(dtinicial,dtfinal)
         d = ConsultaApi.postCalendario(DataRetorno)
-        
         for i in d:
             esc.append(
                 {
@@ -45,5 +42,4 @@ def consulta(request):
                                }
                 }
             )
-        return render(request, 'html/cotacao.html', {'retorno' : esc})
-
+    return render(request, 'html/cotacao.html', {'retorno' : esc})
