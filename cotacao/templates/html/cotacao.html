@@ -64,7 +64,7 @@
             text: 'Source: api.vatcomply.com/'
         },
         xAxis: {
-            categories: [{% for i in retorno %}'{{ i.data|safe }}'{% if not forloop.last %},{% endif %}{% endfor %}]
+            categories: [{% for i in retorno %}'{{ i.data_cotacao|safe }}'{% if not forloop.last %},{% endif %}{% endfor %}]
         },
         yAxis: {
             title: {
@@ -97,7 +97,7 @@
             text: 'Source: api.vatcomply.com/'
         },
         xAxis: {
-            categories: [{% for i in retorno %}'{{ i.data|safe }}'{% if not forloop.last %},{% endif %}{% endfor %}]
+            categories: [{% for i in retorno %}'{{ i.data_cotacao|safe }}'{% if not forloop.last %},{% endif %}{% endfor %}]
         },
         yAxis: {
             title: {
@@ -129,7 +129,7 @@
             text: 'Source: api.vatcomply.com/'
         },
         xAxis: {
-            categories: [{% for i in retorno %}'{{ i.data|safe }}'{% if not forloop.last %},{% endif %}{% endfor %}]
+            categories: [{% for i in retorno %}'{{ i.data_cotacao|safe }}'{% if not forloop.last %},{% endif %}{% endfor %}]
         },
         yAxis: {
             title: {

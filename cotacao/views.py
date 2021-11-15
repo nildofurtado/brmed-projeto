@@ -10,7 +10,7 @@ def index(request):
         esc.append(
             {
             'id'        : i,
-            'data'      : d[i]['data'],
+            'data_cotacao'      : d[i]['data'],
             'cotacao'   : {
                             'euro'  : d[i]['euro'],
                             'real'  : d[i]['real'],
