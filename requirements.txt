@@ -8,6 +8,7 @@ pipwin
 psycopg2
 pyparsing
 pypiwin32
+pywin32
 pytest
 python-dateutil
 pytz
