@@ -12,9 +12,6 @@ pytest
 python-dateutil
 pytz
 PyVirtualDisplay
-pywin32==227
-pywinpty
-pyzmq
 requests
 requests-unixsocket
 tzdata
