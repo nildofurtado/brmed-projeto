@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from rest_framework import generics
+from .models import Post
+from .serializers import CotacaoSerializer
 from .controller.api import ConsultaApi
 from .controller.consulta import ConsultaData
-from django.shortcuts import redirect
 
 def index(request):
     d = ConsultaApi.index()
@@ -18,6 +20,7 @@ def index(request):
                            }
             }
         )
+    print(esc)    
     return render(request, 'html/cotacao.html', {'retorno' : esc})
 
 def consulta(request):
@@ -32,14 +35,17 @@ def consulta(request):
         d = ConsultaApi.postCalendario(DataRetorno)
         for i in d:
             esc.append(
-                {
-                'id'        : i,
-                'data'      : d[i]['data'],
-                'cotacao'   : {
-                                'euro'  : d[i]['euro'],
-                                'real'  : d[i]['real'],
-                                'ien'   : d[i]['ien'],
-                               }
-                }
-            )
+            {
+            'id'        : i,
+            'data_cotacao'      : d[i]['data'],
+            'cotacao'   : {
+                            'euro'  : d[i]['euro'],
+                            'real'  : d[i]['real'],
+                            'ien'   : d[i]['ien'],
+                           }
+            }
+        )
     return render(request, 'html/cotacao.html', {'retorno' : esc})
+class CotacaoList(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = CotacaoSerializer
